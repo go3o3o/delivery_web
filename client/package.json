@@ -1,0 +1,39 @@
+{
+  "name": "client",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "build": "webpack --config webpack.prd.config.js",
+    "dev": "webpack-dev-server --config webpack.dev.config.js --watch",
+    "start": "webpack --config webpack.prd.config.js"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "dependencies": {
+    "@testing-library/react": "^16.1.0",
+    "antd": "^5.22.7",
+    "dotenv-webpack": "^8.1.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-router-dom": "^7.1.1",
+    "react-scripts": "5.0.1"
+  },
+  "devDependencies": {
+    "babel-loader": "^8.4.1",
+    "css-loader": "^6.11.0",
+    "html-loader": "^5.1.0",
+    "style-loader": "^3.3.4",
+    "webpack": "^5.97.1",
+    "webpack-cli": "^6.0.1"
+  }
+}
