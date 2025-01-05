@@ -40,7 +40,7 @@ CREATE TABLE `Shop` (
     `phone` VARCHAR(12) NULL COMMENT '가게 전화번호',
     `address` VARCHAR(255) NULL COMMENT '가게 주소',
     `imageUrl` TEXT NULL COMMENT '가게 로고 이미지',
-    `description` TEXT NULL COMMENT '가게 로고 이미지',
+    `description` TEXT NULL COMMENT '가게 설명',
     `rating` DECIMAL(2,1) NOT NULL DEFAULT 0 COMMENT '평점',
     `orderCount` INT NOT NULL DEFAULT 0 COMMENT '주문 수',
     `dibsCount` INT NOT NULL DEFAULT 0 COMMENT '찜 수',
