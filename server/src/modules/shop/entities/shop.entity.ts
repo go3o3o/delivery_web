@@ -5,11 +5,13 @@ import {
   Entity,
   Index,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   RelationId,
   UpdateDateColumn,
 } from 'typeorm';
 import { ShopCategoryEntity } from './shop-category.entity';
+import { MenuGroupEntity } from 'src/modules/menu/entities/menu-group.entity';
 
 @Entity({ name: 'Shop' })
 export class ShopEntity {
@@ -23,6 +25,9 @@ export class ShopEntity {
 
   @ManyToOne(() => ShopCategoryEntity, (shopCategory) => shopCategory.shops)
   shopCategory: ShopCategoryEntity;
+
+  @OneToMany(() => MenuGroupEntity, (menuGroup) => menuGroup.shop)
+  menuGroups: MenuGroupEntity[];
 
   @Column({ type: 'varchar', length: 100, comment: '가게명' })
   name: string;
