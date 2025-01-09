@@ -61,12 +61,12 @@ CREATE TABLE `MenuGroup` (
     `createdDate` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
     `updatedDate` datetime(6) DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6),
     `deletedDate` datetime(6) DEFAULT NULL, 
-	PRIMARY KEY (`id`)
+	PRIMARY KEY (`id`),
+    CONSTRAINT `FK_SHOP_MENU_GROUP` FOREIGN KEY (`shopId`) REFERENCES `ShopC` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='메뉴 그룹 테이블'; 
 
 CREATE TABLE `Menu` (
     `id` BIGINT(20) NOT NULL AUTO_INCREMENT,
-    `shopId` BIGINT(20) NOT NULL COMMENT '가게 ID',
     `menuGroupId` BIGINT(20) NOT NULL COMMENT '메뉴 그룹 ID',
     `name` VARCHAR(100) NOT NULL COMMENT '메뉴명',
     `description` TEXT NULL COMMENT '메뉴 설명',
@@ -77,7 +77,6 @@ CREATE TABLE `Menu` (
     `updatedDate` datetime(6) DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6),
     `deletedDate` datetime(6) DEFAULT NULL, 
 	PRIMARY KEY (`id`),
-    CONSTRAINT `FK_SHOP_MENU` FOREIGN KEY (`shopId`) REFERENCES `Shop` (`id`),
     CONSTRAINT `FK_MENU_GROUP` FOREIGN KEY (`menuGroupId`) REFERENCES `MenuGroup` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='메뉴 테이블'; 
 
