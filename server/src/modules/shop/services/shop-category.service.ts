@@ -6,13 +6,21 @@ import { ShopCategoryEntity } from '../entities/shop-category.entity';
 import { ShopCategoryResponse } from '../dto/shop-category.dto';
 import { CreateShopCategoryDto } from '../dto/create-shop-category.dto';
 import { UpdateShopCategoryDto } from '../dto/update-shop-category.dto';
+import { ListShopCategoryQuery } from '../dto/list-shop-category.dto';
+import { IListResponse } from 'src/libs/interfaces/response.interface';
+import {
+  findPagination,
+  responsePagination,
+} from 'src/libs/helpers/pagination.helper';
 
 export interface IShopCategoryService {
   get(id: number): Promise<ShopCategoryResponse>;
   create(dto: CreateShopCategoryDto): Promise<ShopCategoryResponse>;
   update(dto: UpdateShopCategoryDto): Promise<ShopCategoryResponse>;
   delete(id: number): Promise<void>;
-  //   list(): Promise<ShopCategoryResponse[]>;
+  list(
+    query: ListShopCategoryQuery,
+  ): Promise<IListResponse<ShopCategoryResponse>>;
 }
 
 @Injectable()
@@ -43,5 +51,22 @@ export class ShopCategoryService implements IShopCategoryService {
 
   async delete(id: number): Promise<void> {
     await this.shopCategoryRepository.softDelete(id);
+  }
+
+  async list(
+    query: ListShopCategoryQuery,
+  ): Promise<IListResponse<ShopCategoryResponse>> {
+    const { size, page, sortBy, ...data } = query;
+
+    const [shopCategories, total] =
+      await this.shopCategoryRepository.findAndCount({
+        where: data,
+        relations: { shops: true },
+        ...findPagination({ page, size, sortBy }),
+      });
+
+    const pagination = responsePagination(total, shopCategories.length, query);
+
+    return { list: shopCategories, pagination };
   }
 }
