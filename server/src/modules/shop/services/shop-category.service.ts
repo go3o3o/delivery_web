@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { Repository } from 'typeorm';
+import { Repository, Like } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 
 import { ShopCategoryEntity } from '../entities/shop-category.entity';
@@ -58,9 +58,13 @@ export class ShopCategoryService implements IShopCategoryService {
   ): Promise<IListResponse<ShopCategoryResponse>> {
     const { size, page, sortBy, ...data } = query;
 
+    const findOptions = {};
+    if (data.name) {
+      findOptions['name'] = Like(`%${data.name}%`);
+    }
     const [shopCategories, total] =
       await this.shopCategoryRepository.findAndCount({
-        where: data,
+        where: findOptions,
         relations: { shops: true },
         ...findPagination({ page, size, sortBy }),
       });
