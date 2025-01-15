@@ -18,7 +18,7 @@ export class MenuEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @RelationId((self: MenuGroupEntity) => self.menus)
+  @RelationId((self: MenuEntity) => self.menuGroup)
   @Column()
   @Index('FK_MENU_GROUP')
   menuGroupId: number;
