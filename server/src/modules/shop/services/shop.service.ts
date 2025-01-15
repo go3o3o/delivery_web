@@ -54,6 +54,14 @@ export class ShopService implements IShopService {
   }
 
   async update(dto: UpdateShopDto): Promise<ShopResponse> {
+    const shopCategory = await this.shopCategoryRepository.findOneBy({
+      id: dto.shopCategoryId,
+    });
+    if (!shopCategory) {
+      throw new NotFoundException(
+        `카테고리가 존재하지 않습니다. (id: ${dto.shopCategoryId})`,
+      );
+    }
     await this.shopRepository.update({ id: dto.id }, dto);
     return await this.shopRepository.findOneBy({ id: dto.id });
   }
