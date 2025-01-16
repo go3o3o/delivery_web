@@ -7,12 +7,14 @@ import { MenuGroupController } from './controllers/menu-group.controller';
 import { MenuGroupService } from './services/menu-group.service';
 import { MenuController } from './controllers/menu.controller';
 import { MenuService } from './services/menu.service';
+import { MenuOptionController } from './controllers/menu-option.controller';
+import { MenuOptionService } from './services/menu-option.service';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([MenuGroupEntity, MenuEntity, MenuOptionEntity]),
   ],
-  controllers: [MenuGroupController, MenuController],
-  providers: [MenuGroupService, MenuService],
+  controllers: [MenuGroupController, MenuController, MenuOptionController],
+  providers: [MenuGroupService, MenuService, MenuOptionService],
 })
 export class MenuModule {}
