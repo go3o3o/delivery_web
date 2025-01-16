@@ -65,6 +65,9 @@ export class ShopEntity {
   @Column({ type: 'int', comment: '리뷰 수', default: 0 })
   reviewCount: number;
 
+  @Column({ type: 'int', comment: '최소주문금액', default: 0 })
+  minOrderPrice: number;
+
   @Column({ type: 'int', comment: '배달비', default: 0 })
   deliveryTip: number;
 
