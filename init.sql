@@ -95,7 +95,7 @@ CREATE TABLE `MenuOption` (
     `updatedDate` datetime(6) DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6),
     `deletedDate` datetime(6) DEFAULT NULL, 
 	PRIMARY KEY (`id`),
-    CONSTRAINT `FK_MENU_OPTION` FOREIGN KEY (`menuId`) REFERENCES `Menu` (`id`),
+    CONSTRAINT `FK_MENU_OPTION` FOREIGN KEY (`menuId`) REFERENCES `Menu` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='메뉴 옵션 테이블'; 
 
 CREATE TABLE `Cart` (
