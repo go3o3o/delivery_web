@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ShopModule } from './modules/shop/shop.module';
+import { MenuModule } from './modules/menu/menu.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { ShopModule } from './modules/shop/shop.module';
     }),
 
     ShopModule,
+    MenuModule,
   ],
   controllers: [],
   providers: [],

@@ -1,3 +1,7 @@
+CREATE DATABASE IF NOT EXISTS delivery_web CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;
+
+USE delivery_web;
+
 CREATE TABLE `User` (
 	`id` BIGINT(20) NOT NULL AUTO_INCREMENT,
 	`loginId` VARCHAR(100) NOT NULL COMMENT '로그인 ID',
@@ -58,11 +62,12 @@ CREATE TABLE `MenuGroup` (
     `id` BIGINT(20) NOT NULL AUTO_INCREMENT,
     `shopId` BIGINT(20) NOT NULL COMMENT '가게 ID',
     `name` VARCHAR(100) NOT NULL COMMENT '메뉴 그룹명',
+    `description` TEXT NULL COMMENT '메뉴 그룹 설명',
     `createdDate` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
     `updatedDate` datetime(6) DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6),
     `deletedDate` datetime(6) DEFAULT NULL, 
 	PRIMARY KEY (`id`),
-    CONSTRAINT `FK_SHOP_MENU_GROUP` FOREIGN KEY (`shopId`) REFERENCES `ShopC` (`id`)
+    CONSTRAINT `FK_SHOP_MENU_GROUP` FOREIGN KEY (`shopId`) REFERENCES `Shop` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='메뉴 그룹 테이블'; 
 
 CREATE TABLE `Menu` (
@@ -90,7 +95,7 @@ CREATE TABLE `MenuOption` (
     `updatedDate` datetime(6) DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6),
     `deletedDate` datetime(6) DEFAULT NULL, 
 	PRIMARY KEY (`id`),
-    CONSTRAINT `FK_MENU_OPTION` FOREIGN KEY (`menuId`) REFERENCES `Menu` (`id`),
+    CONSTRAINT `FK_MENU_OPTION` FOREIGN KEY (`menuId`) REFERENCES `Menu` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='메뉴 옵션 테이블'; 
 
 CREATE TABLE `Cart` (

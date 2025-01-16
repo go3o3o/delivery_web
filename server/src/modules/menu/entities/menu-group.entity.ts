@@ -26,11 +26,14 @@ export class MenuGroupEntity {
   @ManyToOne(() => ShopEntity, (shop) => shop.menuGroups)
   shop: ShopEntity;
 
-  @Column({ type: 'varchar', length: 100, comment: '가게명' })
+  @Column({ type: 'varchar', length: 100, comment: '메뉴 그룹명' })
   name: string;
 
+  @Column({ type: 'text', comment: '메뉴 그룹 설명', nullable: true })
+  description: string;
+
   @OneToMany(() => MenuEntity, (menu) => menu.menuGroup)
-  menus: MenuEntity;
+  menus: MenuEntity[];
 
   @CreateDateColumn()
   createdDate: Date;
