@@ -34,6 +34,10 @@ export class ShopDto {
   @IsOptional()
   readonly description: string;
 
+  @ApiProperty({ description: '최소주문금액', default: 0 })
+  @StringToNumber()
+  readonly minOrderPrice: number;
+
   @ApiProperty({ description: '배달비', default: 0 })
   @StringToNumber()
   readonly deliveryTip: number;
