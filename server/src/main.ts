@@ -5,6 +5,7 @@ import { configureSwagger } from './libs/config/swagger.config';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  const port = process.env.PORT || 3030;
   app.use((req, res, next) => {
     res.header('X-Powered-By', 'YONI');
     next();
@@ -19,6 +20,6 @@ async function bootstrap() {
 
   configureSwagger(app);
 
-  await app.listen(3000);
+  await app.listen(port);
 }
 bootstrap();
