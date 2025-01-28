@@ -69,6 +69,7 @@ const Header: React.FC<HeaderProps> = ({ cartItemCount }) => {
 const styles: { [key: string]: CSSProperties } = {
   container: {
     backgroundColor: colorHex.RED,
+    boxShadow: "none",
   },
 };
 
