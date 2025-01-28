@@ -5,6 +5,11 @@ export class ShopCategoryDto {
   @ApiProperty({ description: '카테고리명', maxLength: 100 })
   @IsString()
   readonly name: string;
+
+  @ApiProperty({ description: '카테고리 이미지' })
+  @IsString()
+  @IsOptional()
+  readonly imageUrl?: string;
 }
 
 export class ShopCategoryResponse extends ShopCategoryDto {
