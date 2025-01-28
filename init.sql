@@ -30,6 +30,7 @@ CREATE TABLE `Address` (
 CREATE TABLE `ShopCategory` (
     `id` BIGINT(20) NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(100) NOT NULL COMMENT '카테고리명',
+    `imageUrl` TEXT NULL COMMENT '카테고리 이미지',
     `createdDate` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
     `updatedDate` datetime(6) DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6),
     `deletedDate` datetime(6) DEFAULT NULL, 

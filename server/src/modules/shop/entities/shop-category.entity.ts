@@ -17,6 +17,9 @@ export class ShopCategoryEntity {
   @Column({ type: 'varchar', length: 100, comment: '카테고리명' })
   name: string;
 
+  @Column({ type: 'text', comment: '카테고리 이미지', nullable: true })
+  imageUrl: string;
+
   @OneToMany(() => ShopEntity, (shop) => shop.shopCategory)
   shops: ShopEntity[];
 
