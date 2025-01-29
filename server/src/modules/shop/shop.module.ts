@@ -6,9 +6,13 @@ import { ShopCategoryController } from './controllers/shop-category.controller';
 import { ShopCategoryService } from './services/shop-category.service';
 import { ShopController } from './controllers/shop.controller';
 import { ShopService } from './services/shop.service';
+import { MenuModule } from '../menu/menu.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([ShopCategoryEntity, ShopEntity])],
+  imports: [
+    TypeOrmModule.forFeature([ShopCategoryEntity, ShopEntity]),
+    MenuModule,
+  ],
   controllers: [ShopCategoryController, ShopController],
   providers: [ShopCategoryService, ShopService],
 })

@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, Like } from 'typeorm';
+import { Repository, Like, In } from 'typeorm';
 
 import { ShopEntity } from '../entities/shop.entity';
 import { ShopResponse } from '../dto/shop.dto';
@@ -13,6 +13,8 @@ import {
   responsePagination,
 } from 'src/libs/helpers/pagination.helper';
 import { ShopCategoryEntity } from '../entities/shop-category.entity';
+import { MenuService } from 'src/modules/menu/services/menu.service';
+import { SearchShopQuery } from '../dto/search-shop.dto';
 
 export interface IShopService {
   get(id: number): Promise<ShopResponse>;
@@ -20,6 +22,7 @@ export interface IShopService {
   update(dto: UpdateShopDto): Promise<ShopResponse>;
   delete(id: number): Promise<void>;
   list(query: ListShopQuery): Promise<IListResponse<ShopResponse>>;
+  search(query: SearchShopQuery): Promise<IListResponse<ShopResponse>>;
 }
 
 @Injectable()
@@ -29,6 +32,8 @@ export class ShopService implements IShopService {
     private readonly shopRepository: Repository<ShopEntity>,
     @InjectRepository(ShopCategoryEntity)
     private readonly shopCategoryRepository: Repository<ShopCategoryEntity>,
+
+    private readonly menuService: MenuService,
   ) {}
 
   async get(id: number): Promise<ShopResponse> {
@@ -78,16 +83,28 @@ export class ShopService implements IShopService {
       findOptions['name'] = Like(`%${data.name}%`);
     }
     if (data.businessName) {
-      findOptions['name'] = Like(`%${data.businessName}%`);
+      findOptions['businessName'] = Like(`%${data.businessName}%`);
     }
     if (data.phone) {
-      findOptions['name'] = Like(`%${data.phone}%`);
+      findOptions['phone'] = Like(`%${data.phone}%`);
     }
     if (data.address) {
-      findOptions['name'] = Like(`%${data.address}%`);
+      findOptions['address'] = Like(`%${data.address}%`);
     }
     const [shops, total] = await this.shopRepository.findAndCount({
       where: findOptions,
+      ...findPagination({ page, size, sortBy }),
+    });
+    const pagination = responsePagination(total, shops.length, query);
+
+    return { list: shops, pagination };
+  }
+
+  async search(query: SearchShopQuery): Promise<IListResponse<ShopResponse>> {
+    const { size, page, sortBy, ...data } = query;
+    const shopIds = await this.menuService.getShopListByName(data.query);
+    const [shops, total] = await this.shopRepository.findAndCount({
+      where: [{ id: In(shopIds) }, { name: Like(`%${data.query}%`) }],
       ...findPagination({ page, size, sortBy }),
     });
     const pagination = responsePagination(total, shops.length, query);
