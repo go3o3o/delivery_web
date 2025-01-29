@@ -104,7 +104,11 @@ export class ShopService implements IShopService {
     const { size, page, sortBy, ...data } = query;
     const shopIds = await this.menuService.getShopListByName(data.query);
     const [shops, total] = await this.shopRepository.findAndCount({
-      where: [{ id: In(shopIds) }, { name: Like(`%${data.query}%`) }],
+      where: [
+        { id: In(shopIds) },
+        { name: Like(`%${data.query}%`) },
+        { shopCategoryId: data.shopCategoryId },
+      ],
       ...findPagination({ page, size, sortBy }),
     });
     const pagination = responsePagination(total, shops.length, query);
