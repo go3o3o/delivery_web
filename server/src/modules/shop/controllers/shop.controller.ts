@@ -21,11 +21,18 @@ import { withListResponse } from 'src/libs/dto/response.dto';
 import { ListShopQuery } from '../dto/list-shop.dto';
 import { UpdateShopDto } from '../dto/update-shop.dto';
 import { CreateShopDto } from '../dto/create-shop.dto';
+import { SearchShopQuery } from '../dto/search-shop.dto';
 
 @ApiTags('가게 API')
 @Controller('shop')
 export class ShopController {
   constructor(private readonly shopService: ShopService) {}
+
+  @ApiOperation({ summary: '가게 검색 API' })
+  @Get('/search')
+  async search(@Query() query: SearchShopQuery) {
+    return this.shopService.search(query);
+  }
 
   @ApiOperation({ summary: '가게 조회 API' })
   @ApiOkResponse({ type: ShopResponse })

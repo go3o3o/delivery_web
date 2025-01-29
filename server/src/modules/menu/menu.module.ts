@@ -16,5 +16,6 @@ import { MenuOptionService } from './services/menu-option.service';
   ],
   controllers: [MenuGroupController, MenuController, MenuOptionController],
   providers: [MenuGroupService, MenuService, MenuOptionService],
+  exports: [MenuService],
 })
 export class MenuModule {}
