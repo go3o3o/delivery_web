@@ -87,4 +87,15 @@ export class MenuService implements IMenuService {
 
     return { list: menus, pagination };
   }
+
+  async getShopListByName(query: string) {
+    const data = await this.menuGroupRepository.find({
+      select: { shopId: true },
+      where: {
+        menus: { name: Like(`%${query}%`) },
+      },
+    });
+
+    return data.map((el) => el.shopId);
+  }
 }
