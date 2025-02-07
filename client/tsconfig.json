@@ -19,11 +19,11 @@
     // "isolatedModules": true,
     // "noEmit": true,
     "paths": {
-      "@custom-types/*": ["src/@types/*"]
+      "@/*": ["src/*"],
     }
   },
-  "include": ["src", "src/@types"],
+  "include": ["src"],
   "exclude": [
-    "node_modules", "dist", "build"
+    "node_modules", "dist", "build",
   ]
 }
