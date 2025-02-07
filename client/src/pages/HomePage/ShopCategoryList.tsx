@@ -75,7 +75,7 @@ function ShopCategoryList() {
                     </CardContent>
                     <CardMedia
                       component="img"
-                      image={category.imageUrl || "https://placehold.co/218"}
+                      image={category?.imageUrl || "https://placehold.co/218"}
                       alt={category.name}
                     />
                   </Card>

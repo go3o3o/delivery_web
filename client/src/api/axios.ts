@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const axiosInstance = axios.create({
-  baseURL: process.env.SERVER_HOST || "http://localhost:3030",
+  baseURL: process.env.SERVER_HOST,
   withCredentials: true,
 });
 
