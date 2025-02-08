@@ -2,7 +2,6 @@ import "./App.css";
 
 import React, { Component } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
-import { QueryClientProvider } from "@tanstack/react-query";
 
 import queryClient from "./api/queryClient";
 import Header from "./component/Header";
@@ -13,14 +12,14 @@ import ShopListPage from "./pages/ShopListPage/ShopListPage";
 export default class App extends Component {
   render() {
     return (
-      <QueryClientProvider client={queryClient}>
+      <div>
         <Header cartItemCount={0} />
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/shop/:shopCategoryId" element={<ShopListPage />} />
         </Routes>
         <Footer />
-      </QueryClientProvider>
+      </div>
     );
   }
 }
