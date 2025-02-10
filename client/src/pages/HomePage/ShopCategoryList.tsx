@@ -65,10 +65,7 @@ function ShopCategoryList() {
           <React.Fragment key={pageIndex}>
             {page.list.map((category) => (
               <Grid2 size={{ xs: 6, sm: 4, md: 3 }} key={category.id}>
-                <CardActionArea
-                  component={RouterLink}
-                  to={`/shop/${category.id}`}
-                >
+                <CardActionArea component={RouterLink} to={`/${category.id}`}>
                   <Card sx={{ display: "flex" }}>
                     <CardContent sx={{ position: "absolute" }}>
                       <Typography variant="h6">{category.name}</Typography>
