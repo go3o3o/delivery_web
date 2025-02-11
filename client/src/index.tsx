@@ -3,10 +3,12 @@ import React from "react";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter as Router } from "react-router-dom";
 import { QueryClientProvider } from "@tanstack/react-query";
+import { ThemeProvider } from "@mui/material";
 
 import { worker } from "./mocks";
 import queryClient from "./api/queryClient";
 import App from "./App";
+import { theme } from "./styles/theme";
 
 if (process.env.NODE_ENV === "development" && !process.env.SERVER_HOST) {
   worker.start();
@@ -19,7 +21,9 @@ root.render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
       <Router>
-        <App />
+        <ThemeProvider theme={theme}>
+          <App />
+        </ThemeProvider>
       </Router>
     </QueryClientProvider>
   </React.StrictMode>
