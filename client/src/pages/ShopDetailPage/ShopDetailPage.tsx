@@ -27,7 +27,7 @@ function ShopDetailPage() {
   return (
     <Container style={styles.container}>
       <ShopInfo id={Number(shopId)} />
-      <Card variant="outlined">
+      <Card variant="outlined" style={{ marginTop: 10 }}>
         <Box sx={{ bgcolor: "background.paper" }}>
           <AppBar position="static" style={styles.tab}>
             <Tabs
