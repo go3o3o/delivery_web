@@ -38,7 +38,7 @@ export class MenuGroupController {
   @ApiOkResponse({ type: MenuGroupResponse })
   @Patch('/:id')
   async update(@Param('id') id: number, @Body() dto: UpdateMenuGroupDto) {
-    return this.menuGroupService.update({ id, ...dto });
+    return this.menuGroupService.update({ ...dto, id });
   }
 
   @ApiOperation({ summary: '메뉴 그룹 삭제 API' })

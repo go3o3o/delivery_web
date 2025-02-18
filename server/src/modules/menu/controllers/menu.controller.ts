@@ -37,8 +37,8 @@ export class MenuController {
   @ApiOperation({ summary: '메뉴 수정 API' })
   @ApiOkResponse({ type: MenuResponse })
   @Patch('/:id')
-  async update(@Body() dto: UpdateMenuDto) {
-    return this.menuService.update(dto);
+  async update(@Param('id') id: number, @Body() dto: UpdateMenuDto) {
+    return this.menuService.update({ ...dto, id });
   }
 
   @ApiOperation({ summary: '메뉴 삭제 API' })
