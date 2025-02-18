@@ -37,8 +37,8 @@ export class MenuOptionController {
   @ApiOperation({ summary: '메뉴 옵션 수정 API' })
   @ApiOkResponse({ type: MenuOptionResponse })
   @Patch('/:id')
-  async update(@Body() dto: UpdateMenuOptionDto) {
-    return this.menuOptionService.update(dto);
+  async update(@Param('id') id: number, @Body() dto: UpdateMenuOptionDto) {
+    return this.menuOptionService.update({ ...dto, id });
   }
 
   @ApiOperation({ summary: '메뉴 옵션 삭제 API' })

@@ -2,10 +2,12 @@ import { ApiProperty } from '@nestjs/swagger';
 import { IsNumber, IsOptional, IsString } from 'class-validator';
 import { MenuDto } from './menu.dto';
 import { ShopDto } from 'src/modules/shop/dto/shop.dto';
+import { StringToNumber } from 'src/libs/decorators/transform/query.decorator';
 
 export class MenuGroupDto {
   @ApiProperty({ description: '가게 ID' })
   @IsNumber()
+  @StringToNumber()
   readonly shopId: number;
 
   @ApiProperty({ description: '메뉴 그룹명', maxLength: 100 })
