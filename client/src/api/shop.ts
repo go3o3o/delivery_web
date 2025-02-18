@@ -36,5 +36,13 @@ const getSearchShops = async (
   return data;
 };
 
-export { getShopCategories, getSearchShops };
-export type { ResponseListShopCategory, ResponseListShop };
+type ResponseShop = Shop;
+
+const getShop = async (id: number): Promise<ResponseShop> => {
+  const { data } = await axiosInstance.get(`/shop/${id}`);
+
+  return data;
+};
+
+export { getShopCategories, getSearchShops, getShop };
+export type { ResponseListShopCategory, ResponseListShop, ResponseShop };

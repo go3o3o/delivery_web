@@ -71,7 +71,7 @@ function ShopListPage() {
             {page.list.map((shop) => (
               <Grid2 size={{ sm: 6 }} key={shop.id}>
                 <CardActionArea component={RouterLink} to={`/shop/${shop.id}`}>
-                  <Card sx={{ display: "flex" }}>
+                  <Card variant="outlined" sx={{ display: "flex" }}>
                     <CardMedia
                       component="img"
                       image={shop.imageUrl || "https://placehold.co/200"}
@@ -86,13 +86,13 @@ function ShopListPage() {
 
                         <Box sx={{ display: "flex", alignItems: "center" }}>
                           <Typography variant="body2" sx={{ color: "#ffa800" }}>
-                            ★{shop.rating}
+                            ★{shop.rating || "0.0"}
                           </Typography>
                           <Typography
                             variant="body2"
                             sx={{ marginLeft: 0.5, color: "#999" }}
                           >
-                            | 리뷰 {shop.reviewCount}
+                            | 리뷰 {shop.reviewCount || 0}
                           </Typography>
                         </Box>
 
