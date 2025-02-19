@@ -16,7 +16,7 @@ interface Shop {
   imageUrl?: string;
   description?: string;
   minOrderPrice?: number;
-  deliveryTip?: number;
+  deliveryFee?: number;
   deliveryTime?: number;
   rating?: number;
   orderCount?: number;

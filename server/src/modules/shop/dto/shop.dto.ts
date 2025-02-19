@@ -40,7 +40,7 @@ export class ShopDto {
 
   @ApiProperty({ description: '배달비', default: 0 })
   @StringToNumber()
-  readonly deliveryTip: number;
+  readonly deliveryFee: number;
 
   @ApiProperty({ description: '배달예상시간', default: 0 })
   @StringToNumber()

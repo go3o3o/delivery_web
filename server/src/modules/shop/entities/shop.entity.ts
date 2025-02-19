@@ -69,7 +69,7 @@ export class ShopEntity {
   minOrderPrice: number;
 
   @Column({ type: 'int', comment: '배달비', default: 0 })
-  deliveryTip: number;
+  deliveryFee: number;
 
   @Column({ type: 'int', comment: '배달예상시간', default: 0 })
   deliveryTime: number;

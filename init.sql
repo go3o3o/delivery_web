@@ -51,7 +51,7 @@ CREATE TABLE `Shop` (
     `dibsCount` INT NOT NULL DEFAULT 0 COMMENT '찜 수',
     `reviewCount` INT NOT NULL DEFAULT 0 COMMENT '리뷰 수',
     `minOrderPrice` INT NOT NULL DEFAULT 0 COMMENT '최소주문금액',
-    `deliveryTip` INT NOT NULL DEFAULT 0 COMMENT '배달비',
+    `deliveryFee` INT NOT NULL DEFAULT 0 COMMENT '배달비',
     `deliveryTime` INT NOT NULL DEFAULT 0 COMMENT '배달예상시간',
     `createdDate` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
     `updatedDate` datetime(6) DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6),
