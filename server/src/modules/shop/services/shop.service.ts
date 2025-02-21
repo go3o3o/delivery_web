@@ -1,22 +1,22 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, Like, In } from 'typeorm';
+import { Repository, Like } from 'typeorm';
 
-import { ShopEntity } from '../entities/shop.entity';
-import { ShopResponse } from '../dto/shop.dto';
-import { CreateShopDto } from '../dto/create-shop.dto';
-import { UpdateShopDto } from '../dto/update-shop.dto';
-import { IListResponse } from 'src/libs/interfaces/response.interface';
-import { ListShopQuery } from '../dto/list-shop.dto';
 import {
   findPagination,
   responsePagination,
 } from 'src/libs/helpers/pagination.helper';
-import { ShopCategoryEntity } from '../entities/shop-category.entity';
-import { SearchShopQuery } from '../dto/search-shop.dto';
-
+import { IListResponse } from 'src/libs/interfaces/response.interface';
 import { MenuService } from 'src/modules/menu/services/menu.service';
 import { AddressService } from 'src/modules/address/address.service';
+
+import { ShopEntity } from '../entities/shop.entity';
+import { ShopCategoryEntity } from '../entities/shop-category.entity';
+import { ShopResponse } from '../dto/shop.dto';
+import { CreateShopDto } from '../dto/create-shop.dto';
+import { UpdateShopDto } from '../dto/update-shop.dto';
+import { ListShopQuery } from '../dto/list-shop.dto';
+import { SearchShopQuery } from '../dto/search-shop.dto';
 
 export interface IShopService {
   get(id: number): Promise<ShopResponse>;
@@ -117,15 +117,58 @@ export class ShopService implements IShopService {
 
   async search(query: SearchShopQuery): Promise<IListResponse<ShopResponse>> {
     const { size, page, sortBy, ...data } = query;
-    const shopIds = await this.menuService.getShopListByName(data.query);
-    const [shops, total] = await this.shopRepository.findAndCount({
-      where: [
-        { id: In(shopIds) },
-        { name: Like(`%${data.query}%`) },
-        { shopCategoryId: data.shopCategoryId },
-      ],
-      ...findPagination({ page, size, sortBy }),
+
+    const paginationQuery = findPagination({ page, size, sortBy });
+    const queryBuilder = this.shopRepository
+      .createQueryBuilder('shop')
+      .skip(paginationQuery.skip)
+      .take(paginationQuery.take);
+
+    // 카테고리 ID가 있는 경우
+    if (data.shopCategoryId) {
+      queryBuilder.andWhere('shop.shopCategoryId = :shopCategoryId', {
+        shopCategoryId: data.shopCategoryId,
+      });
+    }
+
+    // keyword가 있는 경우
+    if (data.keyword) {
+      // 1. 메뉴명 검색
+      const shopIds = await this.menuService.getShopListByName(data.keyword);
+      if (shopIds.length) {
+        queryBuilder.andWhere('shop.id IN (:...shopIds', { shopIds });
+      }
+
+      // 2. 가게명 검색
+      queryBuilder.andWhere('shop.name LIKE :keyword', {
+        keyword: data.keyword,
+      });
+    }
+
+    // 위도/경도가 있는 경우 Haversine 공식 적용하여 거리 필터링
+    if (data.lat && data.lng) {
+      const haversineFormula = `
+        (
+          6371 * ACOS(
+            COS(RADIANS(:latitude)) * COS(RADIANS(shop.lat)) *
+            COS(RADIANS(shop.lng) - RADIANS(:longitude)) +
+            SIN(RADIANS(:latitude)) * SIN(RADIANS(shop.lat))
+          )
+        )
+      `;
+      queryBuilder.andWhere(`${haversineFormula} <= :radius`, {
+        latitude: data.lat,
+        longitude: data.lng,
+        radius: data.deliveryKm || 2,
+      });
+    }
+
+    // 정렬 조건 추가
+    Object.entries(paginationQuery.order).forEach(([column, ordering]) => {
+      queryBuilder.addOrderBy(`shop.${column}`, ordering as 'ASC' | 'DESC');
     });
+
+    const [shops, total] = await queryBuilder.getManyAndCount();
     const pagination = responsePagination(total, shops.length, query);
 
     return { list: shops, pagination };
