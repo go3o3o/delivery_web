@@ -45,6 +45,9 @@ export class ShopDto {
   @ApiProperty({ description: '배달예상시간', default: 0 })
   @StringToNumber()
   readonly deliveryTime: number;
+
+  lat?: number;
+  lng?: number;
 }
 
 export class ShopResponse extends ShopDto {

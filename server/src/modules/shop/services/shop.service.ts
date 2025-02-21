@@ -13,8 +13,10 @@ import {
   responsePagination,
 } from 'src/libs/helpers/pagination.helper';
 import { ShopCategoryEntity } from '../entities/shop-category.entity';
-import { MenuService } from 'src/modules/menu/services/menu.service';
 import { SearchShopQuery } from '../dto/search-shop.dto';
+
+import { MenuService } from 'src/modules/menu/services/menu.service';
+import { AddressService } from 'src/modules/address/address.service';
 
 export interface IShopService {
   get(id: number): Promise<ShopResponse>;
@@ -34,6 +36,7 @@ export class ShopService implements IShopService {
     private readonly shopCategoryRepository: Repository<ShopCategoryEntity>,
 
     private readonly menuService: MenuService,
+    private readonly addressService: AddressService,
   ) {}
 
   async get(id: number): Promise<ShopResponse> {
@@ -54,7 +57,13 @@ export class ShopService implements IShopService {
         `카테고리가 존재하지 않습니다. (id: ${dto.shopCategoryId})`,
       );
     }
-    const shop = await this.shopRepository.save(dto);
+
+    const location = await this.addressService.getCoordinate(dto.address);
+    const shop = await this.shopRepository.save({
+      ...dto,
+      lat: location.lat,
+      lng: location.lng,
+    });
     return shop;
   }
 
@@ -66,6 +75,12 @@ export class ShopService implements IShopService {
       throw new NotFoundException(
         `카테고리가 존재하지 않습니다. (id: ${dto.shopCategoryId})`,
       );
+    }
+
+    if (dto.address) {
+      const location = await this.addressService.getCoordinate(dto.address);
+      dto.lat = location.lat;
+      dto.lng = location.lng;
     }
     await this.shopRepository.update({ id: dto.id }, dto);
     return await this.shopRepository.findOneBy({ id: dto.id });
