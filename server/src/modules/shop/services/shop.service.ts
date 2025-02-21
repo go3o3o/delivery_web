@@ -94,6 +94,11 @@ export class ShopService implements IShopService {
     const { size, page, sortBy, ...data } = query;
 
     const findOptions = {};
+
+    if (data.shopCategoryId) {
+      findOptions['shopCategoryId'] = data.shopCategoryId;
+    }
+
     if (data.name) {
       findOptions['name'] = Like(`%${data.name}%`);
     }
