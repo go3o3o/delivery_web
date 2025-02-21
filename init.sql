@@ -53,6 +53,8 @@ CREATE TABLE `Shop` (
     `minOrderPrice` INT NOT NULL DEFAULT 0 COMMENT '최소주문금액',
     `deliveryFee` INT NOT NULL DEFAULT 0 COMMENT '배달비',
     `deliveryTime` INT NOT NULL DEFAULT 0 COMMENT '배달예상시간',
+    `lat` DOUBLE(10,6) NOT NULL COMMENT '위도',
+    `lng` DOUBLE(10,6) NOT NULL COMMENT '경도',
     `createdDate` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
     `updatedDate` datetime(6) DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6),
     `deletedDate` datetime(6) DEFAULT NULL, 

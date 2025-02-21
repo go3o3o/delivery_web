@@ -74,6 +74,12 @@ export class ShopEntity {
   @Column({ type: 'int', comment: '배달예상시간', default: 0 })
   deliveryTime: number;
 
+  @Column({ type: 'double', precision: 10, scale: 6, comment: '위도' })
+  lat: number;
+
+  @Column({ type: 'double', precision: 10, scale: 6, comment: '경도' })
+  lng: number;
+
   @CreateDateColumn()
   createdDate: Date;
 

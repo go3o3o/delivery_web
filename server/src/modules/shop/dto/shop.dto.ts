@@ -6,6 +6,7 @@ import { StringToNumber } from 'src/libs/decorators/transform/query.decorator';
 export class ShopDto {
   @ApiProperty({ description: '카테고리 ID' })
   @IsNumber()
+  @StringToNumber()
   readonly shopCategoryId: number;
 
   @ApiProperty({ description: '가게명', maxLength: 100 })
@@ -45,6 +46,9 @@ export class ShopDto {
   @ApiProperty({ description: '배달예상시간', default: 0 })
   @StringToNumber()
   readonly deliveryTime: number;
+
+  lat?: number;
+  lng?: number;
 }
 
 export class ShopResponse extends ShopDto {
