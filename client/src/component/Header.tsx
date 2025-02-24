@@ -12,6 +12,7 @@ import {
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 
 import { colorHex, colors } from "../constants";
+import SearchAddress from "./SearchAddress";
 
 type HeaderProps = {
   cartItemCount: number; // 장바구니에 담긴 아이템 수
@@ -62,6 +63,7 @@ const Header: React.FC<HeaderProps> = ({ cartItemCount }) => {
           </IconButton>
         </Toolbar>
       </Box>
+      <SearchAddress />
     </AppBar>
   );
 };
