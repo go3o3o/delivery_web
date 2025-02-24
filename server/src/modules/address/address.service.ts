@@ -1,8 +1,10 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 
 import { BusinessJusoService } from '../common/services/business-juso/business-juso.service';
+import { IJusoResponse } from '../common/services/business-juso/search-address.interface';
 import { KakaoService } from '../common/services/kakao/kakao.service';
 import { SearchAddressQuery } from './dto/search-address.dto';
+import { addressMapper } from './mapper/address.mapper';
 
 @Injectable()
 export class AddressService {
@@ -34,6 +36,12 @@ export class AddressService {
       page,
       size,
     });
-    return response;
+
+    return {
+      list: response.list.map((item: IJusoResponse) => {
+        addressMapper(item);
+      }),
+      pagination: response.pagination,
+    };
   }
 }

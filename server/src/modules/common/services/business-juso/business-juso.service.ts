@@ -20,7 +20,7 @@ export class BusinessJusoService {
 
   async searchAddress({ keyword, page = 1, size = 10 }) {
     const request = {
-      url: 'https://business.juso.go.kr/addrlink/addrLinkApiJsonp.do',
+      url: 'https://business.juso.go.kr/addrlink/addrLinkApi.do',
       method: 'POST',
       params: {
         confmKey: this.apiKey,
@@ -35,10 +35,7 @@ export class BusinessJusoService {
       const { data } =
         await this.httpService.request<ISearchAddressResponse>(request);
 
-      // JSONP 응답에서 JSON 데이터만 추출
-      const jsonString = data.replace(/^.*\((\{.*\})\)$/, '$1');
-      const jsonData = JSON.parse(jsonString);
-      const { common, juso } = jsonData.results;
+      const { common, juso } = data.results;
       const pagination = responsePagination(common?.totalCount, juso?.length, {
         size,
         page,
@@ -49,6 +46,4 @@ export class BusinessJusoService {
       throw new Error('주소 검색 실패: ' + error.message);
     }
   }
-
-  async searchCoordinate() {}
 }
