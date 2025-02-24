@@ -6,7 +6,7 @@ interface ICommonResponse {
   errorMessage?: string;
 }
 
-interface IJusoResponse {
+export interface IJusoResponse {
   roadAddr: string; // 전체 도로명주소
   roadAddrPart1: string; // 도로명주소 (참고항목 제외)
   roadAddrPart2?: string; // 도로명주소 참고항목

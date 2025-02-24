@@ -11,7 +11,7 @@ interface IMetaResponse {
   is_end: boolean;
 }
 
-interface IDocumentResponse {
+export interface IDocumentResponse {
   address_name: string;
   address_type: string;
   y: string; // 위도(lat)
