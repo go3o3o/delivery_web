@@ -38,9 +38,7 @@ export class AddressService {
     });
 
     return {
-      list: response.list.map((item: IJusoResponse) => {
-        addressMapper(item);
-      }),
+      list: response?.list.map((item: IJusoResponse) => addressMapper(item)),
       pagination: response.pagination,
     };
   }
