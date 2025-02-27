@@ -20,18 +20,18 @@ type ResponseListShop = ListResponse<Shop>;
 
 const getSearchShops = async (
   pageParam = 1,
-  query?: string,
-  shopCategoryId?: number
+  keyword?: string,
+  shopCategoryId?: number,
+  lat?: number,
+  lng?: number
 ): Promise<ResponseListShop> => {
-  let params = {};
-  if (query.length) params = { ...params, query };
-  if (shopCategoryId) params = { ...params, shopCategoryId };
-  const { data } = await axiosInstance.get(`/shop/search`, {
-    params: {
-      ...params,
-      page: pageParam,
-    },
-  });
+  const params = {
+    ...(keyword && { keyword }),
+    ...(shopCategoryId && { shopCategoryId }),
+    ...(lat && lng && { lat, lng }), // lat과 lng가 동시에 있을 때만 추가
+    page: pageParam,
+  };
+  const { data } = await axiosInstance.get(`/shop/search`, { params });
 
   return data;
 };

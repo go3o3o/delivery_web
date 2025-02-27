@@ -8,8 +8,10 @@ import {
 } from "@tanstack/react-query";
 
 function useGetInfiniteSearchShops(
-  query?: string,
+  keyword?: string,
   shopCategoryId?: number,
+  lat?: number,
+  lng?: number,
   queryOptions?: UseInfiniteQueryOptions<
     ResponseListShop,
     ResponseError,
@@ -20,9 +22,9 @@ function useGetInfiniteSearchShops(
   >
 ) {
   return useInfiniteQuery({
-    queryKey: ["shops", query, shopCategoryId],
+    queryKey: ["shops", keyword, shopCategoryId, lat, lng],
     queryFn: ({ pageParam }) =>
-      getSearchShops(pageParam, query, shopCategoryId),
+      getSearchShops(pageParam, keyword, shopCategoryId, lat, lng),
     getNextPageParam: (lastPage) => {
       if (lastPage.pagination?.hasNext) {
         return lastPage.pagination.page + 1;
