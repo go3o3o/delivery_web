@@ -11,5 +11,14 @@ const getSearchAddresses = async (pageParam = 1, keyword: string) => {
   return data;
 };
 
-export { getSearchAddresses };
-export type { ResponseListAddress };
+type ResponseCoordinate = Coordinate;
+
+const getCoordinate = async (keyword: string) => {
+  const { data } = await axiosInstance.get(`address/coordinate`, {
+    params: { keyword },
+  });
+  return data;
+};
+
+export { getSearchAddresses, getCoordinate };
+export type { ResponseListAddress, ResponseCoordinate };

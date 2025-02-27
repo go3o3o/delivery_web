@@ -1,3 +1,9 @@
+interface Coordinate {
+  address: string;
+  lat: string;
+  lng: string;
+}
+
 interface Address {
   address: string;
   roadAddress: string;
@@ -5,4 +11,4 @@ interface Address {
   zipCode?: string;
 }
 
-export type { Address };
+export type { Address, Coordinate };

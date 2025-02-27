@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { inject, observer } from "mobx-react";
 import {
   Box,
   Button,
@@ -15,28 +16,46 @@ import {
 import { CSSProperties } from "@mui/material/styles/createMixins";
 import ClearIcon from "@mui/icons-material/Clear";
 import useGetInfiniteSearchAddresses from "@/hooks/queries/useGetInfiniteSearchAddress";
+import { useStores } from "@/providers/StoreProvider";
+import { Address } from "@/types/address";
+import useGetCoordinate from "@/hooks/queries/useGetCoordinate";
 
-const SearchAddress = () => {
-  const [keyword, setKeyword] = useState("");
-  const [isQueryEnabled, setIsQueryEnabled] = useState(false); // 쿼리 실행 여부
-  const [addresses, setAddresses] = useState([]);
+const SearchAddress = observer(() => {
+  const { addressStore } = useStores();
 
-  const { data, isLoading, isError, status } = useGetInfiniteSearchAddresses(
-    keyword,
-    isQueryEnabled
-  );
+  const [keyword, setKeyword] = useState(null); // 입력한 주소
+  const [isSearchAddress, setIsSearchAddress] = useState(false); // useGetInfiniteSearchAddresses 쿼리 실행 여부
+  const [addressList, setAddressList] = useState([]); // 키워드 검색 후 주소 목록
+  const [selectedAddress, setSelectedAddress] = useState(null); // 선택한 주소
+
+  const {
+    data: addresses,
+    isLoading,
+    isError,
+    status,
+  } = useGetInfiniteSearchAddresses(keyword, isSearchAddress && !!keyword);
+
+  const { data: coordinate } = useGetCoordinate(selectedAddress, {
+    enabled: !!selectedAddress,
+  });
 
   useEffect(() => {
-    if (data?.pages && status === "success") {
+    if (addresses?.pages && status === "success") {
       const list = [];
-      data?.pages.forEach((page) => list.push(...page.list));
-      setAddresses(list);
+      addresses?.pages.forEach((page) => list.push(...page.list));
+      setAddressList(list);
     }
-  }, [data]);
+    if (coordinate) {
+      addressStore.setCoordinate(
+        Number(coordinate.lat),
+        Number(coordinate.lng)
+      );
+    }
+  }, [addresses, coordinate]);
 
-  // 키워드 입력시 쿼리 비활성화
+  // 키워드 입력시 쿼리 비활성화, 주소 목록 비활성화
   const handleChangeKeyword = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setIsQueryEnabled(false);
+    setIsSearchAddress(false);
     setKeyword(e.target.value);
   };
 
@@ -48,7 +67,7 @@ const SearchAddress = () => {
   // 주소 검색시
   const handleSearchAddress = () => {
     if (!keyword.trim()) return;
-    setIsQueryEnabled(true);
+    setIsSearchAddress(true);
   };
 
   // 엔터 입력시 주소 검색 실행
@@ -60,12 +79,10 @@ const SearchAddress = () => {
 
   /**
    * TO-DO
-   * 1. 선택한 주소의 lat, lng 가져오기 (address api)
-   * 2. ShopListPage 에 lat, lng 전달
-   * 3. localStorage.set("addresses", ${기존 값에 추가해서 새로 저장})
+   * - localStorage.set("addressList", ${기존 값에 추가해서 새로 저장})
    */
-  const handleSelectAddress = (value: string) => {
-    console.log(value);
+  const handleSelectAddress = (value: Address) => {
+    setSelectedAddress(value.address);
   };
 
   return (
@@ -110,11 +127,13 @@ const SearchAddress = () => {
           </Box>
         ) : (
           <Box
-            display={addresses.length > 0 ? "block" : "none"}
+            display={
+              addressList.length > 0 && !selectedAddress ? "block" : "none"
+            }
             sx={styles.dropdown}
           >
             <List>
-              {addresses.map((addr, index) => (
+              {addressList.map((addr, index) => (
                 <ListItemButton
                   key={index}
                   onClick={() => handleSelectAddress(addr)}
@@ -123,8 +142,8 @@ const SearchAddress = () => {
                 >
                   <ListItemText
                     sx={{ color: "#333" }}
-                    primary={`${addr.address}`}
-                    secondary={`[도로명] ${addr.roadAddress}`}
+                    primary={`${addr?.address}`}
+                    secondary={`[도로명] ${addr?.roadAddress}`}
                   />
                 </ListItemButton>
               ))}
@@ -134,7 +153,7 @@ const SearchAddress = () => {
       </Box>
     </Container>
   );
-};
+});
 
 const styles: { [key: string]: CSSProperties } = {
   input: {

@@ -29,7 +29,7 @@ function useGetInfiniteSearchAddresses(
       return undefined;
     },
     initialPageParam: 1,
-    enabled: enabled && keyword.trim() !== "",
+    enabled,
     ...queryOptions,
   });
 }
