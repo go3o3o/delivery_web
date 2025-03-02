@@ -1,5 +1,6 @@
 import React, { CSSProperties, useEffect, useRef, useState } from "react";
 import { useParams, Link as RouterLink } from "react-router-dom";
+import { observer } from "mobx-react";
 import {
   Typography,
   Box,
@@ -13,9 +14,13 @@ import {
 } from "@mui/material";
 import DeliveryDiningIcon from "@mui/icons-material/DeliveryDining";
 import useGetInfiniteSearchShops from "@/hooks/queries/useGetInfiniteSearchShops";
+import { useStores } from "@/providers/StoreProvider";
 
-function ShopListPage() {
+const ShopListPage = observer(() => {
   const { shopCategoryId } = useParams();
+  const { addressStore } = useStores();
+  const { lat, lng } = addressStore;
+
   const [keyword, setKeyword] = useState("");
   const {
     data: shops,
@@ -24,7 +29,7 @@ function ShopListPage() {
     isFetchingNextPage,
     refetch,
     status,
-  } = useGetInfiniteSearchShops(keyword, Number(shopCategoryId));
+  } = useGetInfiniteSearchShops(keyword, Number(shopCategoryId), lat, lng);
 
   const loadMoreRef = useRef<HTMLDivElement | null>(null);
 
@@ -120,7 +125,7 @@ function ShopListPage() {
       </Grid2>
     </Box>
   );
-}
+});
 
 const styles: { [key: string]: CSSProperties } = {
   container: {

@@ -8,11 +8,12 @@ import Footer from "./component/Footer";
 import HomePage from "./pages/HomePage/HomePage";
 import ShopListPage from "./pages/ShopListPage/ShopListPage";
 import ShopDetailPage from "./pages/ShopDetailPage/ShopDetailPage";
+import { StoreProvider } from "./providers/StoreProvider";
 
 export default class App extends Component {
   render() {
     return (
-      <div>
+      <StoreProvider>
         <Header cartItemCount={0} />
         <Routes>
           <Route path="/" element={<HomePage />} />
@@ -20,7 +21,7 @@ export default class App extends Component {
           <Route path="/shop/:shopId" element={<ShopDetailPage />} />
         </Routes>
         <Footer />
-      </div>
+      </StoreProvider>
     );
   }
 }
