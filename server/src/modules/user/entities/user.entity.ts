@@ -7,6 +7,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { Exclude } from 'class-transformer';
 import { UserGrade } from '../user.enum';
 import { UserAddressEntity } from './user-address.entity';
 
@@ -19,6 +20,7 @@ export class UserEntity {
   email: string;
 
   @Column({ type: 'varchar', length: 255, comment: '비밀번호' })
+  @Exclude()
   password: string;
 
   @Column({ type: 'varchar', length: 12, comment: '전화번호' })
