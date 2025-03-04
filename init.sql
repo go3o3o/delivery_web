@@ -21,6 +21,7 @@ CREATE TABLE `UserAddress` (
     `id` BIGINT(20) NOT NULL AUTO_INCREMENT,
     `userId` BIGINT(20) NOT NULL COMMENT '회원 ID',
 	`address` VARCHAR(255) NOT NULL COMMENT '주소',
+    `description` VARCHAR(100) NULL COMMENT '주소 설명',
 	`createdDate` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
     `updatedDate` datetime(6) DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6),
     `deletedDate` datetime(6) DEFAULT NULL, 

@@ -29,7 +29,10 @@ export class UserService implements IUserService {
   ) {}
 
   async get(id: number): Promise<UserResponse> {
-    const user = await this.userRepository.findOneBy({ id });
+    const user = await this.userRepository.findOne({
+      where: { id },
+      relations: { addresses: true },
+    });
     if (!user) {
       throw new NotFoundException(`유저가 존재하지 않습니다. (id: ${id})`);
     }

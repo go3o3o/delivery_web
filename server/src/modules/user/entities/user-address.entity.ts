@@ -27,6 +27,14 @@ export class UserAddressEntity {
   @Column({ type: 'varchar', length: 255, comment: '주소' })
   address: string;
 
+  @Column({
+    type: 'varchar',
+    length: 100,
+    comment: '주소 설명',
+    nullable: true,
+  })
+  description: string;
+
   @CreateDateColumn()
   createdDate: Date;
 
