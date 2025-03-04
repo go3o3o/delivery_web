@@ -4,6 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ShopModule } from './modules/shop/shop.module';
 import { MenuModule } from './modules/menu/menu.module';
 import { AddressModule } from './modules/address/address.module';
+import { UserModule } from './modules/user/user.module';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { AddressModule } from './modules/address/address.module';
     ShopModule,
     MenuModule,
     AddressModule,
+    UserModule,
   ],
   controllers: [],
   providers: [],

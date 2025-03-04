@@ -4,22 +4,24 @@ USE delivery_web;
 
 CREATE TABLE `User` (
 	`id` BIGINT(20) NOT NULL AUTO_INCREMENT,
-	`loginId` VARCHAR(100) NOT NULL COMMENT '로그인 ID',
-	`password` VARCHAR(255) NOT NULL COMMENT '비밀번호',
     `email` VARCHAR(100) NOT NULL COMMENT '이메일',
+	`password` VARCHAR(255) NOT NULL COMMENT '비밀번호',
 	`phone` VARCHAR(12) NOT NULL COMMENT '전화번호', 
 	`nickname` VARCHAR(100) NULL COMMENT '닉네임', 
     `grade` VARCHAR(10) NOT NULL COMMENT '권한', 
+    `naverId` VARCHAR(255) NULL COMMENT '네이버 ID', 
+    `kakaoId` VARCHAR(255) NULL COMMENT '카카오 ID', 
 	`createdDate` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
     `updatedDate` datetime(6) DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6),
     `deletedDate` datetime(6) DEFAULT NULL, 
 	PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='회원 테이블'; 
 
-CREATE TABLE `Address` (
+CREATE TABLE `UserAddress` (
     `id` BIGINT(20) NOT NULL AUTO_INCREMENT,
     `userId` BIGINT(20) NOT NULL COMMENT '회원 ID',
 	`address` VARCHAR(255) NOT NULL COMMENT '주소',
+    `description` VARCHAR(100) NULL COMMENT '주소 설명',
 	`createdDate` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
     `updatedDate` datetime(6) DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6),
     `deletedDate` datetime(6) DEFAULT NULL, 
