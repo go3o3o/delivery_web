@@ -11,6 +11,7 @@
   "scripts": {
     "build": "npm run --workspace server build && npm run --workspace client build",
     "start": "npm start --workspace server start",
+    "local": "npm run --workspace server start:local & npm run --workspace client dev",
     "dev": "npm run --workspace server start:dev & npm run --workspace client dev",
     "client:build": "npm run --workspace client build",
     "client:dev": "npm run --workspace client dev",

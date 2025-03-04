@@ -5,10 +5,11 @@ import { ShopModule } from './modules/shop/shop.module';
 import { MenuModule } from './modules/menu/menu.module';
 import { AddressModule } from './modules/address/address.module';
 import { UserModule } from './modules/user/user.module';
+import { isLocal, loadConfig } from './libs/config/load-env.config';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({ isGlobal: true, envFilePath: '.env.local' }),
+    ConfigModule.forRoot(loadConfig()),
     TypeOrmModule.forRootAsync({
       useFactory: (configService: ConfigService) => ({
         type: configService.get<'mysql' | 'mariadb'>('DB_TYPE', 'mysql'),
@@ -19,7 +20,7 @@ import { UserModule } from './modules/user/user.module';
         database: configService.get<string>('DB_DATABASE'),
         entities: [__dirname + '/**/*.entity{.ts,.js}'],
         autoLoadEntities: true,
-        synchronize: false,
+        synchronize: isLocal() ? true : false,
         retryDelay: 6000,
       }),
       inject: [ConfigService],
