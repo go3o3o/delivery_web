@@ -3,7 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import { JwtService, JwtSignOptions } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { UserService } from '../user/services/user.service';
-import { LoginDto } from './dto/login.dto';
+import { AuthCredentialDto } from './dto/auth-credential.dto';
 
 @Injectable()
 export class AuthService {
@@ -13,8 +13,15 @@ export class AuthService {
     private readonly userService: UserService,
   ) {}
 
-  async login(dto: LoginDto) {
-    const user = await this.validateUser(dto.email, dto.password);
+  async signup(dto: AuthCredentialDto) {
+    const { email, password } = dto;
+    const user = await this.userService.create({ email, password });
+    return user;
+  }
+
+  async login(dto: AuthCredentialDto) {
+    const { email, password } = dto;
+    const user = await this.validateUser(email, password);
     if (!user) {
       throw new UnauthorizedException(`Invalid credentials`);
     }
@@ -26,6 +33,25 @@ export class AuthService {
       expiresIn: this.configService.get<string>('JWT_ACCESS_TOKEN_EXPIRATION'),
     });
     return { accessToken, user };
+  }
+
+  async refreshToken(refreshToken: string) {
+    try {
+      const payload = this.jwtService.verify(refreshToken);
+      const user = await this.userService.findByEmail(payload.email);
+      if (!user) {
+        return null;
+      }
+      const newPayload = { email: user.email, sub: user.id };
+      const accessToken = await this.getToken(newPayload, {
+        expiresIn: this.configService.get<string>(
+          'JWT_ACCESS_TOKEN_EXPIRATION',
+        ),
+      });
+      return accessToken;
+    } catch (err) {
+      return null;
+    }
   }
 
   async validateUser(email: string, password: string): Promise<any> {

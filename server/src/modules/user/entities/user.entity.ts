@@ -25,7 +25,7 @@ export class UserEntity {
   @Exclude()
   password: string;
 
-  @Column({ type: 'varchar', length: 12, comment: '전화번호' })
+  @Column({ type: 'varchar', length: 12, comment: '전화번호', nullable: true })
   phone: string;
 
   @Column({ type: 'varchar', length: 100, comment: '닉네임', nullable: true })

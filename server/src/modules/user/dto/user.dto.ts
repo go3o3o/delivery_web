@@ -25,7 +25,8 @@ export class UserDto {
 
   @ApiProperty({ description: '전화번호' })
   @IsString()
-  readonly phone: string;
+  @IsOptional()
+  readonly phone?: string;
 
   @ApiProperty({ description: '닉네임' })
   @IsString()
@@ -35,7 +36,7 @@ export class UserDto {
   @ApiProperty({ description: '권한', enum: UserGrade })
   @IsString()
   @IsOptional()
-  readonly grade: UserGrade;
+  readonly grade?: UserGrade;
 
   @ApiProperty({ description: '네이버 ID', nullable: true })
   @IsString()
