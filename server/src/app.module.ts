@@ -6,6 +6,8 @@ import { MenuModule } from './modules/menu/menu.module';
 import { AddressModule } from './modules/address/address.module';
 import { UserModule } from './modules/user/user.module';
 import { isLocal, loadConfig } from './libs/config/load-env.config';
+import { AuthModule } from './modules/auth/auth.module';
+import { JwtAuthGuard } from './modules/auth/jwt-auth.guard';
 
 @Module({
   imports: [
@@ -30,8 +32,9 @@ import { isLocal, loadConfig } from './libs/config/load-env.config';
     MenuModule,
     AddressModule,
     UserModule,
+    AuthModule,
   ],
   controllers: [],
-  providers: [],
+  providers: [JwtAuthGuard],
 })
 export class AppModule {}
