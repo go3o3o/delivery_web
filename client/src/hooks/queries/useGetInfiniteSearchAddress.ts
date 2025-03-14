@@ -6,6 +6,7 @@ import {
 } from "@tanstack/react-query";
 import { ResponseError } from "@/types/common";
 import { getSearchAddresses, ResponseListAddress } from "@/api/address";
+import { queryKeys } from "@/constants";
 
 function useGetInfiniteSearchAddresses(
   keyword?: string,
@@ -20,7 +21,7 @@ function useGetInfiniteSearchAddresses(
   >
 ) {
   return useInfiniteQuery({
-    queryKey: ["addresses", keyword],
+    queryKey: [queryKeys.ADDRESS, queryKeys.GET_SEARCH_ADDRESSES, keyword],
     queryFn: ({ pageParam }) => getSearchAddresses(pageParam, keyword),
     getNextPageParam: (lastPage) => {
       if (lastPage.pagination?.hasNext) {

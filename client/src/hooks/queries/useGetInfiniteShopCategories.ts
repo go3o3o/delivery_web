@@ -6,6 +6,7 @@ import {
 } from "@tanstack/react-query";
 import { getShopCategories, ResponseListShopCategory } from "@/api/shop";
 import { ResponseError } from "@/types/common";
+import { queryKeys } from "@/constants";
 
 const useGetInfiniteShopCategories = (
   queryOptions?: UseInfiniteQueryOptions<
@@ -18,7 +19,7 @@ const useGetInfiniteShopCategories = (
   >
 ) => {
   return useInfiniteQuery({
-    queryKey: ["shopCategories"],
+    queryKey: [queryKeys.SHOP_CATEGORY, queryKeys.GET_SHOP_CATEGORIES],
     queryFn: getShopCategories,
     getNextPageParam: (lastPage) => {
       if (lastPage.pagination.hasNext) {

@@ -1,4 +1,5 @@
 import { getMenuGroups, ResponseListMenus } from "@/api/menu";
+import { queryKeys } from "@/constants";
 import { ResponseError } from "@/types/common";
 import {
   InfiniteData,
@@ -19,7 +20,7 @@ function useGetInfiniteMenuGroups(
   >
 ) {
   return useInfiniteQuery({
-    queryKey: ["menus", shopId],
+    queryKey: [queryKeys.MENU, queryKeys.GET_MENUS, shopId],
     queryFn: ({ pageParam }) => getMenuGroups(pageParam, shopId),
     getNextPageParam: (lastPage) => {
       if (lastPage.pagination?.hasNext) {
