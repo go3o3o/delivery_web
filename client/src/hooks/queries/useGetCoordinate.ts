@@ -1,6 +1,7 @@
-import { getCoordinate, ResponseCoordinate } from "@/api/address";
-import { UseQueryCustomOptions } from "@/types/common";
 import { useQuery } from "@tanstack/react-query";
+import { getCoordinate, ResponseCoordinate } from "@/api/address";
+import { queryKeys } from "@/constants";
+import { UseQueryCustomOptions } from "@/types/common";
 
 function useGetCoordinate(
   keyword: string,
@@ -8,7 +9,7 @@ function useGetCoordinate(
 ) {
   return useQuery({
     queryFn: () => getCoordinate(keyword),
-    queryKey: ["coordinate", keyword],
+    queryKey: [queryKeys.COORDINATE, queryKeys.GET_COORDINATE, keyword],
     throwOnError: true,
     ...queryOptions,
   });

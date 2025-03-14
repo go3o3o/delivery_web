@@ -1,11 +1,12 @@
-import { getSearchShops, ResponseListShop } from "@/api/shop";
-import { ResponseError } from "@/types/common";
 import {
   InfiniteData,
   QueryKey,
   UseInfiniteQueryOptions,
   useInfiniteQuery,
 } from "@tanstack/react-query";
+import { getSearchShops, ResponseListShop } from "@/api/shop";
+import { queryKeys } from "@/constants";
+import { ResponseError } from "@/types/common";
 
 function useGetInfiniteSearchShops(
   keyword?: string,
@@ -22,7 +23,14 @@ function useGetInfiniteSearchShops(
   >
 ) {
   return useInfiniteQuery({
-    queryKey: ["shops", keyword, shopCategoryId, lat, lng],
+    queryKey: [
+      queryKeys.SHOP,
+      queryKeys.GET_SEARCH_SHOPS,
+      keyword,
+      shopCategoryId,
+      lat,
+      lng,
+    ],
     queryFn: ({ pageParam }) =>
       getSearchShops(pageParam, keyword, shopCategoryId, lat, lng),
     getNextPageParam: (lastPage) => {

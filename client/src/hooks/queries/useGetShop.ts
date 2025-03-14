@@ -1,6 +1,7 @@
-import { getShop, ResponseShop } from "@/api/shop";
-import { UseQueryCustomOptions } from "@/types/common";
 import { useQuery } from "@tanstack/react-query";
+import { getShop, ResponseShop } from "@/api/shop";
+import { queryKeys } from "@/constants";
+import { UseQueryCustomOptions } from "@/types/common";
 
 function useGetShop(
   id: number | null,
@@ -8,7 +9,7 @@ function useGetShop(
 ) {
   return useQuery({
     queryFn: () => getShop(id),
-    queryKey: ["shop", id],
+    queryKey: [queryKeys.SHOP, queryKeys.GET_SHOP, id],
     enabled: Boolean(id),
     throwOnError: true,
     ...queryOptions,
