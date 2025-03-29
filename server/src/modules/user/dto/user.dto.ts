@@ -1,19 +1,32 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNumber, IsOptional, IsString } from 'class-validator';
+import {
+  IsEmail,
+  IsNumber,
+  IsOptional,
+  IsString,
+  Matches,
+  MinLength,
+} from 'class-validator';
 import { UserGrade } from '../user.enum';
 
 export class UserDto {
   @ApiProperty({ description: '이메일' })
-  @IsString()
+  @IsEmail({}, { message: '유효한 이메일 주소를 입력해주세요.' })
   readonly email: string;
 
   @ApiProperty({ description: '비밀번호' })
   @IsString()
+  @MinLength(8, { message: '비밀번호는 최소 8자 이상이어야 합니다.' })
+  @Matches(/^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*?_]).{8,}$/, {
+    message:
+      '비밀번호는 8자리 이상이며, 최소 하나 이상의 영문자/숫자/특수문자를 입력해야 합니다.',
+  })
   readonly password: string;
 
   @ApiProperty({ description: '전화번호' })
   @IsString()
-  readonly phone: string;
+  @IsOptional()
+  readonly phone?: string;
 
   @ApiProperty({ description: '닉네임' })
   @IsString()
@@ -23,7 +36,7 @@ export class UserDto {
   @ApiProperty({ description: '권한', enum: UserGrade })
   @IsString()
   @IsOptional()
-  readonly grade: UserGrade;
+  readonly grade?: UserGrade;
 
   @ApiProperty({ description: '네이버 ID', nullable: true })
   @IsString()

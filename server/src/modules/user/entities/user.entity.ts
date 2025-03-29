@@ -5,6 +5,7 @@ import {
   Entity,
   OneToMany,
   PrimaryGeneratedColumn,
+  Unique,
   UpdateDateColumn,
 } from 'typeorm';
 import { Exclude } from 'class-transformer';
@@ -12,18 +13,19 @@ import { UserGrade } from '../user.enum';
 import { UserAddressEntity } from './user-address.entity';
 
 @Entity({ name: 'User' })
+@Unique(['email'])
 export class UserEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ unique: true, type: 'varchar', length: 100, comment: '이메일' })
+  @Column({ type: 'varchar', length: 100, comment: '이메일' })
   email: string;
 
   @Column({ type: 'varchar', length: 255, comment: '비밀번호' })
   @Exclude()
   password: string;
 
-  @Column({ type: 'varchar', length: 12, comment: '전화번호' })
+  @Column({ type: 'varchar', length: 12, comment: '전화번호', nullable: true })
   phone: string;
 
   @Column({ type: 'varchar', length: 100, comment: '닉네임', nullable: true })
